@@ -10,3 +10,9 @@ class File(Entry):
 
 	def setLatestEdition(self, value):
 		self.__latestEdition = value
+
+	# def getSize(self, value):
+	# 	return self.__size
+
+	# def setSize(self, value):
+	# 	self.__size = value

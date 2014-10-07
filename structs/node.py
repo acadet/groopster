@@ -10,9 +10,8 @@ class Node:
 	def getContent(self):
 		return self.__content
 
-	def forEachChildren(self, func):
-		for e in self.__children:
-			func(e)
+	def getChildren(self):
+		return self.__children
 
 	def addChild(self, node):
 		self.__children.append(node)

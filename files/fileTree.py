@@ -9,23 +9,39 @@ class FileTree(Tree):
 	def __init__(self, dirName):
 		Tree.__init__(self, Node(Folder(dirName)))
 
-	def _buildRec(self, dirNode, path = ''):
+	def __buildRec(self, dirNode, path = ''):
 		dirName = dirNode.getContent().getName()
 		fullPath = path + dirName + '/'
-		children = os.listdir(dirName)
+		children = os.listdir(fullPath)
 
 		for c in children:
 			n = None
 			entryPath = fullPath + c
 			if os.path.isdir(entryPath):
 				n = Node(Folder(c))
-				self._buildRec(n, fullPath)
+				self.__buildRec(n, fullPath)
 			else:
 				f = File(c)
-				f.setLatestEdition(os.stat(entryPath).st_mtime)
+				stats = os.stat(entryPath)
+				f.setLatestEdition(stats.st_mtime)
+				# f.setSize(stats.st_size / 1000)
 				n = Node(f)
 			dirNode.addChild(n)
 
 
 	def build(self):
-		self._buildRec(self.getRoot())
+		self.__buildRec(self.getRoot())
+
+	def printTree(self):
+		def f(node, pre):
+			extendedPre = pre + '-'
+			for n in node.getChildren():
+				print(extendedPre + n.getContent().getName())
+				if n.getContent().isFolder():
+					f(n, extendedPre)
+
+		if self.isEmpty():
+			print('Empty tree')
+		else:
+			print(self.getRoot().getContent().getName())
+			f(self.getRoot(), '')	
