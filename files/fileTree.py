@@ -4,6 +4,10 @@ from .folder import Folder
 from structs.tree import Tree
 from structs.node import Node
 
+###
+ # @class FileTree
+ # @brief Manages a file tree
+ ###
 class FileTree(Tree):
 
 	def __init__(self, dirName):
@@ -17,6 +21,7 @@ class FileTree(Tree):
 		for c in children:
 			n = None
 			entryPath = fullPath + c
+			
 			if os.path.isdir(entryPath):
 				n = Node(Folder(c))
 				self.__buildRec(n, fullPath)
@@ -28,10 +33,15 @@ class FileTree(Tree):
 				n = Node(f)
 			dirNode.addChild(n)
 
-
+	###
+	 # Builds file tree recursivly
+	 ###
 	def build(self):
 		self.__buildRec(self.getRoot())
 
+	###
+	 # Prints a tree in output
+	 ###
 	def printTree(self):
 		def f(node, pre):
 			extendedPre = pre + '-'

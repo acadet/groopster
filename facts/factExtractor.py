@@ -1,5 +1,9 @@
 from threading import Thread
 
+###
+ # @class FactExtractor
+ # @brief Extracts facts as a thread
+ ###
 class FactExtractor(Thread):
 	def __init__(self, listener):
 		Thread.__init__(self)

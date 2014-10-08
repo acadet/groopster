@@ -1,5 +1,9 @@
 from .entry import Entry
 
+###
+ # @class File
+ # @brief Represents a file in a file system
+ ###
 class File(Entry):
 
 	def __init__(self, name):

@@ -1,3 +1,7 @@
+###
+ # @class Node
+ # @brief A node structure
+ ###
 class Node:
 	
 	def __init__(self, content):

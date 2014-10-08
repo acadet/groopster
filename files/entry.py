@@ -1,3 +1,7 @@
+###
+ # @class Entry
+ # @brief Represents an entry in a file system
+ ###
 class Entry:
 
 	def __init__(self, name, isFolder):

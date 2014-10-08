@@ -1,3 +1,7 @@
+###
+ # @class Tree
+ # @brief A tree structure
+ ###
 class Tree:
 
 	def __init__(self, root):

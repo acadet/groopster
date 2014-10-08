@@ -1,6 +1,10 @@
 from threading import Thread
 import shutil
 
+###
+ # @class CopyThread
+ # @brief Copies file or folder as a thread
+ ###
 class CopyThread(Thread):
 
 	def __init__(self, listener, src, dest, isTree):
