@@ -1,4 +1,5 @@
 from threading import Thread
+from .folder import Folder
 import shutil
 
 ###
@@ -18,7 +19,7 @@ class CopyThread(Thread):
 	def run(self):
 		f = None
 		if (self.__isTree):
-			f = lambda: shutil.copytree(self.__src, self.__dest)
+			f = lambda: shutil.copytree(self.__src, self.__dest, False, Folder.filter)
 		else:
 			f = lambda: shutil.copy(self.__src, self.__dest)
 

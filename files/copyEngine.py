@@ -1,4 +1,6 @@
 from .copyThread import CopyThread
+from .folder import Folder
+from .file import File
 
 ###
  # @class CopyEngine
@@ -8,7 +10,7 @@ class CopyEngine:
 
 	def __init__(self, listener, strategy):
 		self.__listener = listener
-		self.__strategy = strategy # Strategy to apply (e.g.: most recent)			
+		self.__strategy = strategy # Strategy to apply (e.g.: most recent)
 		self.__threads = 0 # How many threads have been created
 
 	###
@@ -29,21 +31,26 @@ class CopyEngine:
 
 		for n in srcChildren:
 			name = n.getContent().getName()
-			outcome = self.__findNode(n, destChildren)
+			isFolder = n.getContent().isFolder()
 
-			if outcome is None:
-				# Node does not exist, copy file or folder
-				CopyThread(self.__listener, srcPath + name, destPath + name, n.getContent().isFolder()).start()
-				self.__threads += 1
-			else:
-				if n.getContent().isFolder():
-					# Existing folder, call function again
-					self.__browse(srcPath + name + '/', n, destPath + name + '/', outcome)
+			if isFolder or ((not isFolder) and (not File.isIgnored(name))):
+				# Ignore special files
+				outcome = self.__findNode(n, destChildren)
+
+				if outcome is None:
+					# Node does not exist, copy file or folder
+					print(name)
+					CopyThread(self.__listener, srcPath + name, destPath + name, isFolder).start()
+					self.__threads += 1
 				else:
-					if self.__strategy(n.getContent(), outcome.getContent()):
-						# Copy only if strategy is matched
-						CopyThread(self.__listener, srcPath + name, destPath + name, False).start()
-						self.__threads += 1
+					if n.getContent().isFolder():
+						# Existing folder, call function again
+						self.__browse(srcPath + name + '/', n, destPath + name + '/', outcome)
+					else:
+						if self.__strategy(n.getContent(), outcome.getContent()):
+							# Copy only if strategy is matched
+							CopyThread(self.__listener, srcPath + name, destPath + name, False).start()
+							self.__threads += 1
 
 
 	###
@@ -52,7 +59,7 @@ class CopyEngine:
 	def run(self, srcPath, srcTree, destPath, destTree):
 		if destTree.isEmpty():
 			try:
-				shutil.copytree(srcPath, destPath)
+				shutil.copytree(srcPath, destPath, False, Folder.filter)
 			except Exception as e:
 				self.__listener.onCopyError(e)
 		else:

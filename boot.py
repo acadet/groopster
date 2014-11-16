@@ -2,6 +2,7 @@ from window import Window
 from files.fileTree import FileTree
 from files.copyEngine import CopyEngine
 from threading import Lock
+import traceback
 
 ###
  # @class Boot
@@ -22,6 +23,7 @@ class Boot:
      # Run when copying thread has encountered an error
      ###
     def onCopyError(self, error):
+        print(traceback.format_exc(error))
         self.__window.showError(error)
 
     ###

@@ -21,7 +21,7 @@ class FileTree(Tree):
 		for c in children:
 			n = None
 			entryPath = fullPath + c
-			
+
 			if os.path.isdir(entryPath):
 				n = Node(Folder(c))
 				self.__buildRec(n, fullPath)
@@ -54,4 +54,4 @@ class FileTree(Tree):
 			print('Empty tree')
 		else:
 			print(self.getRoot().getContent().getName())
-			f(self.getRoot(), '')	
+			f(self.getRoot(), '')

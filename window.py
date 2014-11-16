@@ -126,7 +126,7 @@ class Window(Tk):
 
 		# Start button part
 		self.__runButton = Button(self, text='C\'est parti', command=self.__onRunButtonClick)
-		self.__runButton.grid(row = 2, column = 0)	
+		self.__runButton.grid(row = 2, column = 0)
 
 	###
 	 # Shows success notification when program is over
@@ -142,6 +142,7 @@ class Window(Tk):
 	def showError(self, error):
 		self.__stopFacts()
 		self.__showPopup('Aie :( L\'erreur suivante s\'est produite : ' + str(error))
+		self.__runButton.config(text = 'On réessaie ?', state = 'normal')
 
 	###
 	 # Called when fact extractor has ended

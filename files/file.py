@@ -20,3 +20,14 @@ class File(Entry):
 
 	# def setSize(self, value):
 	# 	self.__size = value
+
+	###
+	 # Sets if a file has to be ignored
+	 ###
+	@staticmethod
+	def isIgnored(name):
+		n = name.lower().strip()
+		if n == 'thumbs.db' or n == '.ds_store':
+			return True
+
+		return False
